@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alberto Ufano — Game Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Cormorant+Garamond:ital,wght@1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #1f1f1f;
+      --bg-2:      #252525;
+      --bg-3:      #2a2a2a;
+      --text:      #d1cfc0;
+      --muted:     #6e6c60;
+      --dim:       #a09e93;
+      --accent:    #f76f53;
+      --accent-lo: rgba(247, 111, 83, 0.10);
+      --line:      rgba(255, 255, 255, 0.08);
+      --line-hi:   rgba(255, 255, 255, 0.14);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      /* subtle grain */
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    }
+
+    /* ────── HEADER ────── */
+    .site-header {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 72px 40px 56px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(44px, 8vw, 80px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    h1 .italic {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -0.01em;
+    }
+
+    .header-sub {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--dim);
+      max-width: 560px;
+      margin-bottom: 36px;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .contact-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 1px solid var(--line-hi);
+      margin-right: -1px;
+      margin-bottom: -1px;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+
+    .contact-links a:first-child { border-radius: 2px 0 0 2px; }
+    .contact-links a:last-child  { border-radius: 0 2px 2px 0; }
+
+    .contact-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-lo);
+      z-index: 1;
+      position: relative;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* ────── MAIN ────── */
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 40px 100px;
+    }
+
+    /* ────── SECTION LABEL ────── */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 52px 0 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* ────── SKILLS ────── */
+    .skills-wrap {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 32px 0 8px;
+    }
+
+    .skill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .06em;
+      color: var(--dim);
+      border: 1px solid var(--line-hi);
+      padding: 5px 12px;
+      border-radius: 2px;
+      transition: color .15s, border-color .15s;
+      cursor: default;
+    }
+
+    .skill:hover {
+      color: var(--text);
+      border-color: var(--muted);
+    }
+
+    .skill.hi {
+      color: var(--text);
+      border-color: var(--line-hi);
+    }
+
+    /* ────── JOB ────── */
+    .job {
+      padding: 52px 0 0;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 52px;
+    }
+
+    .job-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .job-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      background: var(--accent-lo);
+      border: 1px solid rgba(217, 48, 37, 0.2);
+      padding: 3px 10px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .job-company {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+
+    .job-role {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 32px;
+      letter-spacing: .02em;
+    }
+
+    /* ────── PROJECT IMAGE ────── */
+    .project-img-wrap {
+      position: relative;
+      margin-bottom: 28px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      overflow: hidden;
+      background: var(--bg-3);
+      aspect-ratio: 16 / 7;
+    }
+
+    .project-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease, filter .4s ease;
+      filter: saturate(.85) contrast(1.05);
+    }
+
+    .project-img-wrap:hover img {
+      transform: scale(1.02);
+      filter: saturate(1) contrast(1.05);
+    }
+
+    /* placeholder — shown when no real image */
+    .project-img-wrap.empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      border-style: dashed;
+      border-color: var(--line-hi);
+    }
+
+    .project-img-wrap.empty .placeholder-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--line-hi);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .img-caption {
+      position: absolute;
+      bottom: 0; left: 0;
+      background: rgba(9, 9, 9, .82);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      padding: 7px 16px;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .03em;
+      color: var(--dim);
+    }
+
+    /* ────── DESCRIPTION ────── */
+    .job-desc {
+      font-size: 14.5px;
+      line-height: 1.8;
+      color: var(--dim);
+      margin-bottom: 24px;
+    }
+
+    .job-desc p + p { margin-top: 12px; }
+
+    .job-desc ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .job-desc ul li {
+      padding-left: 22px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .job-desc ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* progression inside same company */
+    .job-progression {
+      border-left: 2px solid var(--line-hi);
+      padding-left: 20px;
+      margin: 28px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .progression-step {}
+
+    .progression-step .step-role {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .progression-step .step-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .progression-step p {
+      font-size: 13.5px;
+      color: var(--dim);
+      line-height: 1.7;
+    }
+
+    /* ────── STEP IMAGE GRID ────── */
+    .step-imgs {
+      display: grid;
+      gap: 3px;
+      margin-top: 14px;
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .step-imgs.cols-2 { grid-template-columns: 1fr 1fr; }
+    .step-imgs.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .step-imgs.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+    .step-imgs img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      display: block;
+      filter: saturate(.8) contrast(1.05);
+      transition: filter .35s ease, transform .35s ease;
+    }
+
+    .step-imgs img:hover {
+      filter: saturate(1.05) contrast(1.05);
+      transform: scale(1.04);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ────── TECH TAGS ────── */
+    .tech-stack {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tech {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .07em;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 3px 9px;
+      border-radius: 2px;
+    }
+
+    /* ────── EDUCATION ────── */
+    .edu-entry {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 0 24px;
+    }
+
+    .edu-entry:last-child { border-bottom: none; }
+
+    .edu-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      padding-top: 4px;
+    }
+
+    .edu-degree {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .edu-school {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ────── FOOTER ────── */
+    .site-footer {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 28px 40px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .site-footer span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: .08em;
+    }
+
+    /* ────── LIGHTBOX ────── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 10, .92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 3px;
+      box-shadow: 0 32px 80px rgba(0,0,0,.6);
+      transform: scale(.96);
+      transition: transform .25s ease;
+    }
+
+    .lightbox.open img {
+      transform: scale(1);
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--dim);
+      font-size: 28px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 8px;
+      transition: color .15s;
+    }
+
+    .lightbox-close:hover { color: var(--text); }
+
+    /* ────── YOUTUBE THUMBNAIL ────── */
+    .featured-project .yt-thumb {
+      margin-bottom: 0;
+      border: none;
+      border-radius: 0;
+    }
+
+    .yt-thumb {
+      position: relative;
+      display: block;
+      margin-bottom: 28px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      text-decoration: none;
+    }
+
+    .yt-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(.8) contrast(1.05);
+      transition: filter .35s ease, transform .35s ease;
+    }
+
+    .yt-thumb:hover img {
+      filter: saturate(1) contrast(1.05);
+      transform: scale(1.02);
+    }
+
+    .yt-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(247, 111, 83, .88);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s ease, transform .2s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,.5);
+    }
+
+    .yt-thumb:hover .yt-play {
+      background: var(--accent);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .yt-play svg {
+      width: 22px;
+      height: 22px;
+      fill: #fff;
+      margin-left: 3px;
+    }
+
+    .yt-label {
+      position: absolute;
+      bottom: 0; left: 0;
+      background: rgba(10, 10, 10, .82);
+      backdrop-filter: blur(6px);
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      padding: 7px 16px;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--dim);
+    }
+
+    /* ────── FEATURED PROJECT ────── */
+    .featured-project {
+      margin: 32px 0 28px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .featured-project img {
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      object-fit: cover;
+      display: block;
+      filter: saturate(.85) contrast(1.05);
+      transition: filter .4s ease, transform .4s ease;
+      cursor: zoom-in;
+    }
+
+    .featured-project img:hover {
+      filter: saturate(1.05) contrast(1.05);
+      transform: scale(1.02);
+    }
+
+    .featured-project-info {
+      padding: 14px 18px;
+      border-top: 1px solid var(--line);
+      background: var(--bg-2);
+    }
+
+    .featured-project-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+    }
+
+    .featured-project-name {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .featured-project-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: .06em;
+    }
+
+    .featured-project-desc {
+      font-size: 13px;
+      color: var(--dim);
+      line-height: 1.6;
+    }
+
+    .featured-project-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: .05em;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* make all project images and step images feel clickable */
+    .project-img-wrap img,
+    .step-imgs img {
+      cursor: zoom-in;
+    }
+
+    /* ────── SCROLL FADE ────── */
+    .job, .edu-entry {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .45s ease, transform .45s ease;
+    }
+
+    .job.visible, .edu-entry.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ────── RESPONSIVE ────── */
+    @media (max-width: 620px) {
+      .site-header, main { padding-left: 20px; padding-right: 20px; }
+      h1 { font-size: 42px; }
+      .job-company { font-size: 22px; }
+      .edu-entry { grid-template-columns: 1fr; gap: 6px; }
+      .contact-links a:first-child,
+      .contact-links a:last-child { border-radius: 2px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="site-header">
+  <p class="eyebrow">Game Engineer · Madrid · Spain</p>
+  <h1>Alberto Ufano</h1>
+  <p class="header-sub">
+    16 years shipping games played by millions.<br>
+    Game Engineer · Epic Games · Mediatonic · Pyro Studios
+  </p>
+  <nav class="contact-links">
+    <a href="mailto:aufano@gmail.com">aufano@gmail.com</a>
+    <a href="https://www.linkedin.com/in/aufano/" target="_blank" rel="noopener">linkedin.com/in/aufano</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ══ EXPERIENCE ══ -->
+  <p class="section-label">Experience</p>
+
+  <!-- ── Epic Games / Mediatonic ── -->
+  <article class="job">
+    <div class="job-meta">
+      <span class="job-date">2020 — NOW</span>
+      <h2 class="job-company">Epic Games</h2>
+    </div>
+    <p class="job-role">Senior Client Engineer / Senior Client Programmer</p>
+
+    <div class="job-desc">
+      <p>
+        Joined Mediatonic as Senior Client Engineer in 2020, just before the studio's breakout hit took the world by storm.
+        When Epic Games acquired Mediatonic in March 2021, continued in the same role now under the Epic umbrella.
+      </p>
+    </div>
+
+    <div class="featured-project">
+      <img src="images/fall-guys-crown-jam-ES-ES.jpg" alt="Crown Jam">
+      <div class="featured-project-info">
+        <div class="featured-project-header">
+          <span class="featured-project-name">Crown Jam</span>
+          <span class="featured-project-meta">1.5 years · Unreal Engine · C++</span>
+        </div>
+        <p class="featured-project-desc">A new 3v3 multiplayer arcade sport where beans tumble and dunk in an arena packed with hazards and hype.</p>
+        <p class="featured-project-role">Gameplay programmer — abilities system and character code.</p>
+      </div>
+    </div>
+
+    <div class="featured-project">
+      <a class="yt-thumb" href="https://www.youtube.com/watch?v=jSR9x96wYp4" target="_blank" rel="noopener">
+        <img src="https://img.youtube.com/vi/jSR9x96wYp4/maxresdefault.jpg" alt="Fall Guys">
+        <div class="yt-play">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </a>
+      <div class="featured-project-info">
+        <div class="featured-project-header">
+          <span class="featured-project-name">Fall Guys</span>
+          <span class="featured-project-meta">4.5 years · Unity · C#</span>
+        </div>
+        <p class="featured-project-desc">A chaotic multiplayer battle royale where up to 30 players compete through escalating obstacle courses until one winner remains.</p>
+        <p class="featured-project-role">Squads architecture, matchmaking systems, and mobile port.</p>
+      </div>
+    </div>
+
+    <div class="tech-stack">
+      <span class="tech">Unity</span>
+      <span class="tech">C#</span>
+      <span class="tech">Unreal Engine</span>
+      <span class="tech">C++</span>
+    </div>
+  </article>
+
+  <!-- ── YUMP ── -->
+  <article class="job">
+    <div class="job-meta">
+      <span class="job-date">2017 — 2019</span>
+      <h2 class="job-company">YUMP.com</h2>
+    </div>
+    <p class="job-role">Lead Programmer · 2 años 11 meses</p>
+
+    <div class="featured-project">
+      <a class="yt-thumb" href="https://www.youtube.com/watch?v=4rgOpAzA_hU" target="_blank" rel="noopener">
+        <img src="https://img.youtube.com/vi/4rgOpAzA_hU/maxresdefault.jpg" alt="YUMP">
+        <div class="yt-play">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </a>
+      <div class="featured-project-info">
+        <div class="featured-project-header">
+          <span class="featured-project-name">YUMP</span>
+          <span class="featured-project-meta">Unity · AR · iOS · Android</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-desc">
+      <p>
+        iOS and Android app built in Unity with augmented reality features. Step counter integrating Google Fit and Apple HealthKit SDKs. Led the technical architecture from the ground up.
+      </p>
+    </div>
+    <div class="tech-stack">
+      <span class="tech">Unity</span>
+      <span class="tech">C#</span>
+      <span class="tech">AR</span>
+      <span class="tech">Google Fit SDK</span>
+      <span class="tech">Apple HealthKit</span>
+      <span class="tech">Android</span>
+      <span class="tech">iOS</span>
+    </div>
+  </article>
+
+  <!-- ── Pyro Studios ── -->
+  <article class="job">
+    <div class="job-meta">
+      <span class="job-date">2010 — 2017</span>
+      <h2 class="job-company">Pyro Studios</h2>
+    </div>
+    <p class="job-role">Game Programmer → Senior → Lead · 6 años 10 meses</p>
+
+    <div class="job-desc">
+      <p>
+        Seven years at one of Spain's most iconic game studios, growing from programmer to leading the team.
+        A wide range of projects across mobile, PC, Facebook, and VR.
+      </p>
+    </div>
+
+    <div class="job-progression">
+      <div class="progression-step">
+        <p class="step-role">Lead Programmer</p>
+        <p class="step-date">Feb 2015 — Feb 2017</p>
+        <p>
+          <em>Discovering Telecomunications with Mobi &amp; Fono</em> — educational project combining mini-games and a digital book (Unity, Android, iOS).
+          <em>Evolution Planet Gold</em> — puzzle game ported to Steam across Windows, MacOS and Linux.
+          <em>Comandos Mobile</em> — bringing the iconic franchise to mobile.
+          <em>A Lunar Adventure VR</em> — adventure game for Samsung Gear VR.
+        </p>
+        <div class="step-imgs cols-4">
+          <img src="images/pyro-discovering-telecom.jpg" alt="Discovering Telecom with Mobi & Fono">
+          <img src="images/pyro-evolutionplanet.jpg" alt="Evolution Planet Gold">
+          <img src="images/pyrocommando-mobile.jpg" alt="Comandos Mobile">
+          <img src="images/pyro-lunar-adventure-vr.jpg" alt="A Lunar Adventure VR">
+        </div>
+      </div>
+      <div class="progression-step">
+        <p class="step-role">Senior Game Programmer</p>
+        <p class="step-date">Feb 2014 — Feb 2015</p>
+        <p>
+          <em>The Comics Level</em> — dual-purpose app acting as both a content store and a runtime engine for interactive multimedia digital comics.
+        </p>
+        <div class="step-imgs cols-2">
+          <img src="images/pyro-comicslevel1.jpg" alt="The Comics Level">
+          <img src="images/pyro-comicslevel-shop.jpg" alt="The Comics Level Shop">
+        </div>
+      </div>
+      <div class="progression-step">
+        <p class="step-role">Game Programmer</p>
+        <p class="step-date">May 2010 — Feb 2014</p>
+        <p>
+          Several Facebook and mobile titles: <em>FashionWorld</em>, <em>SportsCity</em>, <em>AdventurePark</em> (AS3, PHP, MySQL),
+          and <em>The Moleys</em> — a puzzle game for iOS and Android built with C++ and Cocos2d-x.
+        </p>
+        <div class="step-imgs cols-3">
+          <img src="images/pyro-facebook.jpg" alt="Facebook Games">
+          <img src="images/pyro-facebook-sportscity.jpg" alt="SportsCity">
+          <img src="images/pyro-the-moleys.jpg" alt="The Moleys">
+        </div>
+      </div>
+    </div>
+
+    <div class="tech-stack">
+      <span class="tech">Unity</span>
+      <span class="tech">C#</span>
+      <span class="tech">C++</span>
+      <span class="tech">Cocos2d-x</span>
+      <span class="tech">AS3</span>
+      <span class="tech">PHP · MySQL</span>
+      <span class="tech">Android</span>
+      <span class="tech">iOS</span>
+      <span class="tech">Samsung Gear VR</span>
+    </div>
+  </article>
+
+  <!-- ── Personal Projects ── -->
+  <article class="job">
+    <div class="job-meta">
+      <span class="job-date">2013 — 2014</span>
+      <h2 class="job-company">Personal Project</h2>
+    </div>
+    <p class="job-role">Self-Published · Game Programmer</p>
+
+    <div class="project-img-wrap">
+      <img src="images/pokerkit.jpg" alt="Poker Kit Dealer / Player">
+      <span class="img-caption">Poker Kit Dealer / Player</span>
+    </div>
+
+    <div class="job-desc">
+      <p>
+        Self-published two companion apps: <em>Poker Kit Dealer</em> (server) and <em>Poker Kit Player</em> (client).
+        Together they turn any group of phones into a full Texas Hold'em table — automatic card dealing, blind counters,
+        all over a local multiplayer connection. Built end-to-end in Unity.
+      </p>
+    </div>
+    <div class="tech-stack">
+      <span class="tech">Unity</span>
+      <span class="tech">C#</span>
+      <span class="tech">Multiplayer</span>
+    </div>
+  </article>
+
+  <!-- ── Damepiso ── -->
+  <article class="job">
+    <div class="job-meta">
+      <span class="job-date">2006 — 2007</span>
+      <h2 class="job-company">Damepiso S.L.</h2>
+    </div>
+    <p class="job-role">Cofounder</p>
+
+    <div class="job-desc">
+      <p>
+        Co-founded an online real estate platform for buying and renting properties in Spain.
+        Designed and built two independent sites — one for the Canary Islands, one for Madrid.
+      </p>
+    </div>
+    <div class="tech-stack">
+      <span class="tech">PHP</span>
+      <span class="tech">MySQL</span>
+      <span class="tech">JavaScript</span>
+      <span class="tech">ActionScript</span>
+    </div>
+  </article>
+
+  <!-- ══ SKILLS ══ -->
+  <p class="section-label">Skills</p>
+  <div class="skills-wrap">
+    <span class="skill hi">C++</span>
+    <span class="skill hi">C#</span>
+    <span class="skill hi">Unreal Engine</span>
+    <span class="skill hi">Unity</span>
+    <span class="skill">Gameplay Programming</span>
+    <span class="skill">Client Architecture</span>
+    <span class="skill">Game Development</span>
+    <span class="skill">Mobile · Android · iOS</span>
+    <span class="skill">Multiplayer</span>
+  </div>
+
+  <!-- ══ EDUCATION ══ -->
+  <p class="section-label">Education</p>
+
+  <div class="edu-entry">
+    <span class="edu-date">2009 — 2010</span>
+    <div>
+      <h3 class="edu-degree">Máster en Desarrollo de Videojuegos</h3>
+      <p class="edu-school">Universidad Complutense de Madrid</p>
+    </div>
+  </div>
+
+  <div class="edu-entry">
+    <span class="edu-date">2002 — 2007</span>
+    <div>
+      <h3 class="edu-degree">Licenciatura en Ingeniería Informática</h3>
+      <p class="edu-school">Universidad Alfonso X El Sabio</p>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <span>Alberto Ufano Pardo</span>
+  <span>aufano@gmail.com</span>
+  <span>Madrid</span>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close">&#x2715;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  // Fade-in entries as they scroll into view
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.job, .edu-entry').forEach(el => observer.observe(el));
+
+  // Lightbox
+  const lb     = document.getElementById('lightbox');
+  const lbImg  = document.getElementById('lightbox-img');
+  const lbClose = document.getElementById('lightbox-close');
+
+  function openLightbox(src, alt) {
+    lbImg.src = src;
+    lbImg.alt = alt;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.project-img-wrap img, .step-imgs img, .featured-project img').forEach(img => {
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
+  });
+
+  lbClose.addEventListener('click', closeLightbox);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
